@@ -148,5 +148,83 @@ namespace BinarySearchTree
 
             return focusNode;
         }
+
+        public bool deleteNode(int key)
+        {
+            Node focusNode = root;
+            Node parent = root;
+            bool isItALeftChild = true;
+
+            while (focusNode.key != key)
+            {
+                parent = focusNode;
+
+                if (key < focusNode.key)
+                {
+                    isItALeftChild = true;
+                    focusNode = focusNode.leftChild;
+                }
+                else
+                {
+                    isItALeftChild = false;
+                    focusNode = focusNode.rightChild;
+                }
+
+                if (focusNode == null)
+                {
+                    return false;
+                }
+            }
+
+            if (focusNode.leftChild == null && focusNode.rightChild == null)
+            {
+                if (focusNode == root)
+                {
+                    root = null;
+                }
+                else if (isItALeftChild)
+                {
+                    parent.leftChild = null;
+                }
+                else
+                {
+                    parent.rightChild = null;
+                }
+            }
+            else if (focusNode.rightChild == null)
+            {
+                if (focusNode == root)
+                {
+                    root = focusNode.leftChild;
+                }
+                else if (isItALeftChild)
+                {
+                    parent.leftChild = focusNode.leftChild;
+                }
+                else
+                {
+                    parent.rightChild = focusNode.leftChild;
+                }
+            }
+            else if (focusNode.leftChild == null)
+            {
+                if (focusNode == root)
+                {
+                    root = focusNode.rightChild;
+                }
+                else if (isItALeftChild)
+                {
+                    parent.leftChild = focusNode.rightChild;
+                }
+                else
+                {
+                    parent.rightChild = focusNode.rightChild;
+                }
+            }
+            else
+            {
+                Node replacement = getReplacementNode(focusNode);
+            }
+        }
     }
 }
