@@ -13,21 +13,23 @@ namespace BinarySearchTree
             BinaryTree theTree = new BinaryTree();
 
             theTree.addNode(50, "Boss");
-
             theTree.addNode(25, "Vice President");
-
             theTree.addNode(15, "Office Manager");
-
             theTree.addNode(30, "Secretary");
-
             theTree.addNode(75, "Sales Manager");
-
             theTree.addNode(85, "Salesman 1");
+            theTree.addNode(70, "Salesman 2");
+            theTree.addNode(18, "Data Entry");
+            theTree.addNode(2, "Intern");
+            theTree.addNode(69, "fsdsfs");
+            theTree.addNode(71, "fsdsfs");
 
             //theTree.inOrderTraversal(theTree.root);
-            //theTree.preOrderTraversal(theTree.root);
             //theTree.postOrderTraversal(theTree.root);
-            Console.WriteLine(theTree.findNode(30).toString());
+            //Console.WriteLine(theTree.findNode(30).toString());
+            Console.WriteLine("REMOVE KEY 25");
+            theTree.deleteNode(50);
+            theTree.preOrderTraversal(theTree.root);
         }
     }
 
@@ -221,10 +223,49 @@ namespace BinarySearchTree
                     parent.rightChild = focusNode.rightChild;
                 }
             }
-            else
+            else // Neither children are null
             {
                 Node replacement = getReplacementNode(focusNode);
+
+                if (focusNode == root)
+                {
+                    root = replacement;
+                }
+                else if (isItALeftChild)
+                {
+                    parent.leftChild = replacement;
+                }
+                else
+                {
+                    parent.rightChild = replacement;
+                }
+
+                replacement.leftChild = focusNode.leftChild;
             }
+
+            return true;
+        }
+
+        public Node getReplacementNode(Node replacedNode)
+        {
+            Node replacementParent = replacedNode;
+            Node replacement = replacedNode;
+            Node focusNode = replacedNode.rightChild;
+
+            while (focusNode != null)
+            {
+                replacementParent = replacement;
+                replacement = focusNode;
+                focusNode = focusNode.leftChild;
+            }
+
+            if (replacement != replacedNode.rightChild)
+            {
+                replacementParent.leftChild = replacement.rightChild;
+                replacement.rightChild = replacedNode.rightChild;
+            }
+
+            return replacement;
         }
     }
 }
